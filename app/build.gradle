@@ -6,7 +6,7 @@ android.applicationVariants.all {
     variant ->
         variant.outputs.all {
             //在这里修改apk文件名
-            outputFileName = "Simple Text-v${variant.versionName}.apk"
+            outputFileName = "Simple Text-${variant.versionName}.apk"
         }
 }
 
@@ -18,8 +18,8 @@ android {
         applicationId "com.example.desktoptext"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 5
-        versionName "2.7"
+        versionCode 6
+        versionName "Beta v1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
