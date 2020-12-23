@@ -37,7 +37,7 @@ public class DesktopTextWidget1 extends AppWidgetProvider {
 
         for (int appWidgetId : appWidgetIds) {
 
-            SharedPreferences sharedPref = context.getSharedPreferences(context.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+            SharedPreferences sharedPref = context.getSharedPreferences(context.getString(R.string.preference_file_key_saved_slots), Context.MODE_PRIVATE);
 
             //初始化文字，大小，颜色
             int fontSize = sharedPref.getInt(context.getString(R.string.last_font_size), 12);

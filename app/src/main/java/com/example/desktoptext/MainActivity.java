@@ -13,6 +13,7 @@ import android.util.TypedValue;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.view.View;
+import android.widget.RadioButton;
 import android.widget.RemoteViews;
 import android.widget.AdapterView;
 import android.widget.Spinner;
@@ -29,8 +30,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     public int SPINNER_COLOR = Color.BLACK;
     public int FONT_SIZE = 12;
     public boolean SPINNER_USED = false;
+    public int NOW_WIDGET = 1;
     private Resources r;
-    private SharedPreferences sharedPref;
+    private SharedPreferences sharedPrefWidget;
+    private SharedPreferences sharedPrefSaveSlots;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,12 +57,61 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
 
         this.r = getResources();
-        this.sharedPref = this.getSharedPreferences(r.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
 
-        initSavedSlots();
+        initPref();         // 初始化配置
+
+        initSavedSlots();   // 初始化存储栏
 
     }
 
+    public void initPref(){
+        this.sharedPrefSaveSlots = this.getSharedPreferences(r.getString(R.string.preference_file_key_saved_slots), Context.MODE_PRIVATE);
+        switch (this.NOW_WIDGET){
+            case 1:
+                this.sharedPrefWidget = this.getSharedPreferences(r.getString(R.string.preference_file_key_widget1), Context.MODE_PRIVATE);
+                break;
+            case 2:
+                this.sharedPrefWidget = this.getSharedPreferences(r.getString(R.string.preference_file_key_widget2), Context.MODE_PRIVATE);
+                break;
+        }
+    }
+
+    public ComponentName initProvider(){
+        ComponentName provider;
+        switch (this.NOW_WIDGET){
+            case 1:
+                provider = new ComponentName(this, DesktopTextWidget1.class);
+                break;
+            case 2:
+                provider = new ComponentName(this, DesktopTextWidget2.class);
+                break;
+            default:
+                provider = new ComponentName(this, DesktopTextWidget1.class);
+        }
+        return provider;
+    }
+
+    public void initSavedSlots(){
+        /*
+         *初始化存储栏
+         */
+
+        String handle = String.format("saved_text_%d", 1);
+        String message = sharedPrefSaveSlots.getString(handle, "");
+
+        updateSlot(R.id.saveSlots1, message);
+
+        handle = String.format("saved_text_%d", 2);
+        message = sharedPrefSaveSlots.getString(handle, "");
+
+        updateSlot(R.id.saveSlots2, message);
+
+        handle = String.format("saved_text_%d", 3);
+        message = sharedPrefSaveSlots.getString(handle, "");
+
+        updateSlot(R.id.saveSlots3, message);
+
+    }
 
     public void updateText(String message){
         /*
@@ -67,14 +119,14 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
          */
 
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
-        ComponentName provider = new ComponentName(this, DesktopTextWidget1.class);
+        ComponentName provider = initProvider();
         RemoteViews views = new RemoteViews(this.getPackageName(),
                 R.layout.desktop_text_widget);
         views.setTextViewText(R.id.appwidget_text, message);
 
         appWidgetManager.updateAppWidget(provider, views);
 
-        SharedPreferences.Editor editor = sharedPref.edit();
+        SharedPreferences.Editor editor = sharedPrefWidget.edit();
         editor.putString(r.getString(R.string.displaying_text), message);
         editor.apply();
         if (message.length()>0){
@@ -95,11 +147,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         if (statusCode==0 | statusCode==4){
             AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
-            ComponentName provider = new ComponentName(this, DesktopTextWidget1.class);
+            ComponentName provider = initProvider();
             RemoteViews views = new RemoteViews(this.getPackageName(),
                     R.layout.desktop_text_widget);
 
-            SharedPreferences.Editor editor = sharedPref.edit();
+            SharedPreferences.Editor editor = sharedPrefWidget.edit();
 
             views.setTextViewTextSize(R.id.appwidget_text, TypedValue.COMPLEX_UNIT_PT, this.FONT_SIZE);
             views.setTextColor(R.id.appwidget_text, this.FONT_COLOR);
@@ -120,45 +172,29 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         }
     }
 
+    public void updateCurrentWidget(View view){
+        boolean checked = ((RadioButton) view).isChecked();
+        switch (view.getId()){
+            case R.id.radioButtonWidget1:
+                if (checked){
+                    this.NOW_WIDGET = 1;
+                }
+                break;
+            case R.id.radioButtonWidget2:
+                if (checked){
+                    this.NOW_WIDGET = 2;
+                }
+                break;
+        }
 
-    public void initSavedSlots(){
-        /*
-         *初始化存储栏
-         */
-
-        String handle = String.format("saved_text_%d", 1);
-        String message = sharedPref.getString(handle, "");
-
-        updateSlot(R.id.saveSlots1, message);
-
-        handle = String.format("saved_text_%d", 2);
-        message = sharedPref.getString(handle, "");
-
-        updateSlot(R.id.saveSlots2, message);
-
-        handle = String.format("saved_text_%d", 3);
-        message = sharedPref.getString(handle, "");
-
-        updateSlot(R.id.saveSlots3, message);
-
+        initPref();
     }
 
-    public void showTextFly(View view){
-        /*
-        实时更新
-         */
-
-        EditText editText = (EditText) findViewById(R.id.editText);
-        // 获取输入的文本
-        String message = editText.getText().toString();
-        updateText(message);
-    }
-
-    public int saveText(View view, String message, int pos) {
+    public int saveText(String message, int pos) {
         /*
          *保存常用文字
          */
-        SharedPreferences.Editor editor = sharedPref.edit();
+        SharedPreferences.Editor editor = sharedPrefSaveSlots.edit();
 
         Integer totalSaveSlots = r.getInteger(R.integer.total_save_slots);
 
@@ -175,8 +211,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         } else {
             for (int i = 0; i < totalSaveSlots; i++) {
                 String handle = String.format("saved_text_%d", i + 1);
-                System.out.println(i);System.out.println(sharedPref.getString(handle, ""));
-                if (sharedPref.getString(handle, "").length()==0) {
+                System.out.println(i);System.out.println(sharedPrefSaveSlots.getString(handle, ""));
+                if (sharedPrefSaveSlots.getString(handle, "").length()==0) {
 
                     editor.putString(handle, message);
                     nowSlot = i + 1;
@@ -232,66 +268,74 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         editText.setText(message);
     }
 
-
-
-    /*
-    各方案更新
-     */
-    public void saveText0(View view){
-        EditText editText = (EditText) findViewById(R.id.editText);
+    public void getMessageToSave(int inputId, int pos){
+        /*
+         * 获取对应存储栏数据
+         */
+        EditText editText = (EditText) findViewById(inputId);
         String message = editText.getText().toString();
-        int nowSlot = saveText(view, message,0);
+        int nowSlot = saveText(message, pos);
         updateSlotsFly(nowSlot, message);
     }
 
-    public void saveText1(View view){
-        EditText editText = (EditText) findViewById(R.id.saveSlots1);
-        String message = editText.getText().toString();
-        int nowSlot = saveText(view, message,1);
-        updateSlotsFly(nowSlot, message);
+
+    public void onSaveButtonClick(View view){
+        /*
+         * 方案保存按钮回调
+         */
+        switch (view.getId()){
+            case R.id.button3:
+                getMessageToSave(R.id.editText, 0);
+                break;
+            case R.id.buttonSaveSlot1:
+                getMessageToSave(R.id.saveSlots1, 1);
+                break;
+            case R.id.buttonSaveSlot2:
+                getMessageToSave(R.id.saveSlots2, 2);
+                break;
+            case R.id.buttonSaveSlot3:
+                getMessageToSave(R.id.saveSlots3, 3);
+                break;
+        }
     }
 
-    public void saveText2(View view){
-        EditText editText = (EditText) findViewById(R.id.saveSlots2);
-        String message = editText.getText().toString();
-        int nowSlot = saveText(view, message, 2);
-        updateSlotsFly(nowSlot, message);
-    }
+    public void getMessageToShow(int inputId){
+        /*
+         * 获取对应存储栏数据
+         */
 
-    public void saveText3(View view){
-        EditText editText = (EditText) findViewById(R.id.saveSlots3);
-        String message = editText.getText().toString();
-        int nowSlot = saveText(view, message,3);
-        updateSlotsFly(nowSlot, message);
-    }
-
-    /*
- 各方案显示
-  */
-
-    public void showText1(View view){
-        EditText editText = (EditText) findViewById(R.id.saveSlots1);
+        EditText editText = (EditText) findViewById(inputId);
+        // 获取输入的文本
         String message = editText.getText().toString();
         updateText(message);
     }
 
-    public void showText2(View view){
-        EditText editText = (EditText) findViewById(R.id.saveSlots2);
-        String message = editText.getText().toString();
-        updateText(message);
-    }
+    public void onDisplayButtonClick(View view) {
+        /*
+         *各方案显示按钮回调
+         */
 
-    public void showText3(View view){
-        EditText editText = (EditText) findViewById(R.id.saveSlots3);
-        String message = editText.getText().toString();
-        updateText(message);
+        switch (view.getId()) {
+            case R.id.buttonQuickDisplay:
+                getMessageToShow(R.id.editText);
+                break;
+            case R.id.buttonSlot1:
+                getMessageToShow(R.id.saveSlots1);
+                break;
+            case R.id.buttonSlot2:
+                getMessageToShow(R.id.saveSlots2);
+                break;
+            case R.id.buttonSlot3:
+                getMessageToShow(R.id.saveSlots3);
+                break;
+        }
     }
 
     public int getInputFont(){
 
         // 读取上次配置
-        int fontSize = sharedPref.getInt(r.getString(R.string.last_font_size), 12);
-        int fontColor = sharedPref.getInt(r.getString(R.string.last_font_color), Color.BLACK);
+        int fontSize = sharedPrefWidget.getInt(r.getString(R.string.last_font_size), 12);
+        int fontColor = sharedPrefWidget.getInt(r.getString(R.string.last_font_color), Color.BLACK);
 
         // 记录当前值
         int nowFontSize = fontSize;

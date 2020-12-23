@@ -31,7 +31,9 @@
     <string name="last_font_color">last_font_color</string>
     <string name="occupied_number_handle">occupied_number_handle</string>
 
-    <string name="preference_file_key">preference_file</string>
+    <string name="preference_file_key_saved_slots">preference_file_saved_slots</string>
+    <string name="preference_file_key_widget1">preference_file_widget1</string>
+    <string name="preference_file_key_widget2">preference_file_widget2</string>
     <string name="heading_save_plan">方案保存</string>
     <string name="hint_input_hex_color_code">16进制颜色代码</string>
     <string name="hint_input_rgb_color_code">RGB</string>

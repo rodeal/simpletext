@@ -20,28 +20,26 @@
 
     <EditText
         android:id="@+id/editText"
-        android:layout_width="193dp"
-        android:layout_height="115dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_width="84dp"
+        android:layout_height="119dp"
         android:ems="10"
         android:hint="@string/edit_message"
         android:inputType="textPersonName"
         android:rotationX="4"
-        app:layout_constraintEnd_toStartOf="@+id/button"
-        app:layout_constraintHorizontal_chainStyle="spread"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/button" />
+        app:layout_constraintEnd_toStartOf="@+id/buttonQuickDisplay"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/radioGroup"
+        app:layout_constraintTop_toTopOf="@+id/buttonQuickDisplay" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/buttonQuickDisplay"
         android:layout_width="141dp"
         android:layout_height="47dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="16dp"
         android:background="#6A1B9A"
         android:hint="@string/button_send"
-        android:onClick="showTextFly"
+        android:onClick="onDisplayButtonClick"
         android:rotationX="4"
         android:text="@string/add_text_to_widget"
         app:layout_constraintEnd_toEndOf="parent"
@@ -53,10 +51,10 @@
         android:id="@+id/button3"
         android:layout_width="141dp"
         android:layout_height="47dp"
-        android:onClick="saveText0"
+        android:onClick="onSaveButtonClick"
         android:text="@string/add_text_to_saved_list"
         app:layout_constraintBottom_toBottomOf="@+id/editText"
-        app:layout_constraintStart_toStartOf="@+id/button" />
+        app:layout_constraintStart_toStartOf="@+id/buttonQuickDisplay" />
 
     <EditText
         android:id="@+id/saveSlots3"
@@ -65,10 +63,10 @@
         android:layout_marginTop="4dp"
         android:ems="10"
         android:inputType="text"
-        app:layout_constraintEnd_toStartOf="@+id/button6"
+        app:layout_constraintEnd_toStartOf="@+id/buttonSaveSlot3"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/textView5"
-        app:layout_constraintTop_toTopOf="@+id/textView5" />
+        app:layout_constraintStart_toEndOf="@+id/buttonSlot3"
+        app:layout_constraintTop_toTopOf="@+id/buttonSlot3" />
 
     <Spinner
         android:id="@+id/color_spinner"
@@ -99,7 +97,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/buttonApplyFontChange"
         android:layout_width="368dp"
         android:layout_height="46dp"
         android:layout_marginTop="16dp"
@@ -131,7 +129,7 @@
         android:layout_height="1dp"
         android:layout_marginTop="24dp"
         android:background="?android:attr/listDivider"
-        app:layout_constraintTop_toBottomOf="@+id/button2"
+        app:layout_constraintTop_toBottomOf="@+id/buttonApplyFontChange"
         tools:layout_editor_absoluteX="0dp" />
 
     <EditText
@@ -141,10 +139,10 @@
         android:layout_marginTop="4dp"
         android:ems="10"
         android:inputType="text"
-        app:layout_constraintEnd_toStartOf="@+id/button4"
+        app:layout_constraintEnd_toStartOf="@+id/buttonSaveSlot1"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/textView2"
-        app:layout_constraintTop_toTopOf="@+id/textView2" />
+        app:layout_constraintStart_toEndOf="@+id/buttonSlot1"
+        app:layout_constraintTop_toTopOf="@+id/buttonSlot1" />
 
     <EditText
         android:id="@+id/saveSlots2"
@@ -153,79 +151,79 @@
         android:layout_marginTop="8dp"
         android:ems="10"
         android:inputType="text"
-        app:layout_constraintEnd_toStartOf="@+id/button5"
+        app:layout_constraintEnd_toStartOf="@+id/buttonSaveSlot2"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/textView4"
-        app:layout_constraintTop_toTopOf="@+id/textView4" />
+        app:layout_constraintStart_toEndOf="@+id/buttonSlot2"
+        app:layout_constraintTop_toTopOf="@+id/buttonSlot2" />
 
     <Button
-        android:id="@+id/textView4"
+        android:id="@+id/buttonSlot2"
         android:layout_width="73dp"
         android:layout_height="48dp"
         android:layout_marginTop="12dp"
         android:gravity="center"
-        android:onClick="showText2"
+        android:onClick="onDisplayButtonClick"
         android:text="方案2"
         android:textAlignment="center"
         app:layout_constraintEnd_toStartOf="@+id/saveSlots2"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+        app:layout_constraintTop_toBottomOf="@+id/buttonSlot1" />
 
     <Button
-        android:id="@+id/textView5"
+        android:id="@+id/buttonSlot3"
         android:layout_width="73dp"
         android:layout_height="48dp"
         android:layout_marginTop="8dp"
         android:gravity="center"
-        android:onClick="showText3"
+        android:onClick="onDisplayButtonClick"
         android:text="方案3"
         android:textAlignment="center"
         app:layout_constraintEnd_toStartOf="@+id/saveSlots3"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+        app:layout_constraintTop_toBottomOf="@+id/buttonSlot2" />
 
     <Button
-        android:id="@+id/button4"
+        android:id="@+id/buttonSaveSlot1"
         android:layout_width="71dp"
         android:layout_height="45dp"
-        android:onClick="saveText1"
+        android:onClick="onSaveButtonClick"
         android:text="保存"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/saveSlots1"
-        app:layout_constraintTop_toTopOf="@+id/textView2" />
+        app:layout_constraintTop_toTopOf="@+id/buttonSlot1" />
 
     <Button
-        android:id="@+id/button5"
+        android:id="@+id/buttonSaveSlot2"
         android:layout_width="71dp"
         android:layout_height="45dp"
-        android:onClick="saveText2"
+        android:onClick="onSaveButtonClick"
         android:text="保存"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/saveSlots2"
-        app:layout_constraintTop_toTopOf="@+id/textView4" />
+        app:layout_constraintTop_toTopOf="@+id/buttonSlot2" />
 
     <Button
-        android:id="@+id/button6"
+        android:id="@+id/buttonSaveSlot3"
         android:layout_width="71dp"
         android:layout_height="45dp"
-        android:onClick="saveText3"
+        android:onClick="onSaveButtonClick"
         android:text="保存"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/saveSlots3"
-        app:layout_constraintTop_toTopOf="@+id/textView5" />
+        app:layout_constraintTop_toTopOf="@+id/buttonSlot3" />
 
     <Button
-        android:id="@+id/textView2"
+        android:id="@+id/buttonSlot1"
         android:layout_width="72dp"
         android:layout_height="45dp"
         android:layout_marginTop="32dp"
         android:gravity="center"
-        android:onClick="showText1"
+        android:onClick="onDisplayButtonClick"
         android:text="方案1"
         android:textAlignment="center"
         app:layout_constraintEnd_toStartOf="@+id/saveSlots1"
@@ -286,8 +284,8 @@
         android:text="@string/hint_apply_slots"
         android:textAlignment="center"
         android:textSize="10sp"
-        app:layout_constraintStart_toStartOf="@+id/textView5"
-        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+        app:layout_constraintStart_toStartOf="@+id/buttonSlot3"
+        app:layout_constraintTop_toBottomOf="@+id/buttonSlot3" />
 
     <TextView
         android:id="@+id/textView8"
@@ -369,5 +367,30 @@
         android:text="#"
         app:layout_constraintBottom_toBottomOf="@+id/hex_color_code"
         app:layout_constraintEnd_toStartOf="@+id/hex_color_code" />
+
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checkedButton="@id/radioButtonWidget1"
+        app:layout_constraintEnd_toStartOf="@+id/editText"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/editText">
+
+        <RadioButton
+            android:id="@+id/radioButtonWidget1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="updateCurrentWidget"
+            android:text="小部件1" />
+
+        <RadioButton
+            android:id="@+id/radioButtonWidget2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="updateCurrentWidget"
+            android:text="小部件2" />
+    </RadioGroup>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
