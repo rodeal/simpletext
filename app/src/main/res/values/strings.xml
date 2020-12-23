@@ -21,6 +21,7 @@
     <string name="input_rgb_color_code_error">RGB色彩数值需在[0, 255]区间内，请重新填写</string>
     <string name="input_hex_color_code_error">16进制颜色代码应为6位，数值为0-9A-F</string>
     <string name="hint_apply_slots">点击以上按钮直接应用</string>
+    <string name="hint_choose_widget">选择目标小部件</string>
     <string name="acknowledgement">小部件字体：沐瑶软笔手写体 </string>
 
     <string name="saved_text_1">saved_text_1</string>
