@@ -10,9 +10,9 @@
     {
       "type": "SINGLE",
       "filters": [],
-      "versionCode": 2,
-      "versionName": "2.1",
-      "outputFile": "Simple Text-v2.1.apk"
+      "versionCode": 5,
+      "versionName": "2.7",
+      "outputFile": "Simple Text-v2.7.apk"
     }
   ]
 }

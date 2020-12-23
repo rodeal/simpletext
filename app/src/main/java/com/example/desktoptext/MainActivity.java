@@ -7,28 +7,28 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.content.Intent;
 import android.view.View;
 import android.widget.RemoteViews;
 import android.widget.AdapterView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.util.regex.Pattern;
+
+import static android.graphics.Color.parseColor;
 import static android.graphics.Color.rgb;
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     public static final String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";
     public int FONT_COLOR = Color.BLACK;
+    public int SPINNER_COLOR = Color.BLACK;
     public int FONT_SIZE = 12;
+    public boolean SPINNER_USED = false;
     private Resources r;
     private SharedPreferences sharedPref;
 
@@ -52,20 +52,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             color_spinner.setAdapter(color_adapter);
         }
 
-        /*
-         *定义字体选择spinner
-         * 定义列表adapter
-         */
-        Spinner font_spinner = findViewById(R.id.font_spinner);
-        if (font_spinner!=null){
-            font_spinner.setOnItemSelectedListener(this);
-        }
-        ArrayAdapter<CharSequence> font_adapter = ArrayAdapter.createFromResource(this,
-                R.array.color_array, android.R.layout.simple_spinner_item);
-        font_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        if (font_spinner!=null){
-            font_spinner.setAdapter(font_adapter);
-        }
 
         this.r = getResources();
         this.sharedPref = this.getSharedPreferences(r.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
@@ -73,6 +59,67 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         initSavedSlots();
 
     }
+
+
+    public void updateText(String message){
+        /*
+        更新桌面显示文字
+         */
+
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
+        ComponentName provider = new ComponentName(this, DesktopTextWidget1.class);
+        RemoteViews views = new RemoteViews(this.getPackageName(),
+                R.layout.desktop_text_widget);
+        views.setTextViewText(R.id.appwidget_text, message);
+
+        appWidgetManager.updateAppWidget(provider, views);
+
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString(r.getString(R.string.displaying_text), message);
+        editor.apply();
+        if (message.length()>0){
+            displayToast(r.getString(R.string.update_text_toast));
+        }else{
+            displayToast(r.getString(R.string.update_empty_text_toast));
+        }
+
+    }
+
+
+    public void changeTextFont(View view){
+        /*
+         * 修改小部件字体
+         */
+
+        int statusCode = getInputFont();
+
+        if (statusCode==0 | statusCode==4){
+            AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
+            ComponentName provider = new ComponentName(this, DesktopTextWidget1.class);
+            RemoteViews views = new RemoteViews(this.getPackageName(),
+                    R.layout.desktop_text_widget);
+
+            SharedPreferences.Editor editor = sharedPref.edit();
+
+            views.setTextViewTextSize(R.id.appwidget_text, TypedValue.COMPLEX_UNIT_PT, this.FONT_SIZE);
+            views.setTextColor(R.id.appwidget_text, this.FONT_COLOR);
+
+            editor.putInt(r.getString(R.string.last_font_size), this.FONT_SIZE);
+            editor.putInt(r.getString(R.string.last_font_color), this.FONT_COLOR);
+            editor.apply();
+
+            appWidgetManager.updateAppWidget(provider, views);
+
+            displayToast(r.getString(R.string.fininshed_font_altering));
+        }else if (statusCode==3){
+            displayToast(r.getString(R.string.use_last_saved_font_config));
+        }else if (statusCode==1){
+            displayToast(r.getString(R.string.input_hex_color_code_error));
+        }else if (statusCode==2){
+            displayToast(r.getString(R.string.input_rgb_color_code_error));
+        }
+    }
+
 
     public void initSavedSlots(){
         /*
@@ -96,38 +143,21 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     }
 
-    public void updateTextFly(View view){
+    public void showTextFly(View view){
         /*
         实时更新
          */
+
         EditText editText = (EditText) findViewById(R.id.editText);
         // 获取输入的文本
         String message = editText.getText().toString();
         updateText(message);
     }
 
-    public void updateText(String message){
-        /*
-        启动更新小部件Activity
-         */
-        
-        // 定义intent，与另一个activity连接
-        Intent intent = new Intent(this, ConfigureActivity.class);
-
-        // 将文本加入到intent中
-        intent.putExtra(EXTRA_MESSAGE, message);
-        // 开始activity
-        startActivity(intent);
-
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putString(r.getString(R.string.displaying_text), message);
-        editor.apply();
-
-        displayToast(r.getString(R.string.update_text_toast));
-    }
-
     public int saveText(View view, String message, int pos) {
-
+        /*
+         *保存常用文字
+         */
         SharedPreferences.Editor editor = sharedPref.edit();
 
         Integer totalSaveSlots = r.getInteger(R.integer.total_save_slots);
@@ -169,7 +199,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 //        }
         editor.apply();
         String save_text_toast = r.getString(R.string.add_text_to_saved_list_toast);
-        displayToast(message);
+        if (message.length() > 0){
+            displayToast(String.join(" ", message, save_text_toast));
+        }else{
+            displayToast(r.getString((R.string.add_empty_text_to_saved_list_toast)));
+        }
+
 
         updateSlotsFly(nowSlot, message);
 
@@ -205,25 +240,29 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     public void saveText0(View view){
         EditText editText = (EditText) findViewById(R.id.editText);
         String message = editText.getText().toString();
-        int nowSlot = saveText(view, message,1);
+        int nowSlot = saveText(view, message,0);
+        updateSlotsFly(nowSlot, message);
     }
 
     public void saveText1(View view){
         EditText editText = (EditText) findViewById(R.id.saveSlots1);
         String message = editText.getText().toString();
         int nowSlot = saveText(view, message,1);
+        updateSlotsFly(nowSlot, message);
     }
 
     public void saveText2(View view){
         EditText editText = (EditText) findViewById(R.id.saveSlots2);
         String message = editText.getText().toString();
         int nowSlot = saveText(view, message, 2);
+        updateSlotsFly(nowSlot, message);
     }
 
     public void saveText3(View view){
         EditText editText = (EditText) findViewById(R.id.saveSlots3);
         String message = editText.getText().toString();
         int nowSlot = saveText(view, message,3);
+        updateSlotsFly(nowSlot, message);
     }
 
     /*
@@ -248,33 +287,31 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         updateText(message);
     }
 
+    public int getInputFont(){
 
+        // 读取上次配置
+        int fontSize = sharedPref.getInt(r.getString(R.string.last_font_size), 12);
+        int fontColor = sharedPref.getInt(r.getString(R.string.last_font_color), Color.BLACK);
 
-    public void changeFont(View view){
+        // 记录当前值
+        int nowFontSize = fontSize;
+        int nowFontColor = fontColor;
 
-        int appWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
-
-        Intent intent = getIntent();
-        Bundle extras = intent.getExtras();
-        if (extras != null) {
-            appWidgetId = extras.getInt(
-                    AppWidgetManager.EXTRA_APPWIDGET_ID,
-                    AppWidgetManager.INVALID_APPWIDGET_ID);
-        }
-
+        // 字体大小
         EditText inputFontSize = findViewById(R.id.fontsize);
         String tmp = inputFontSize.getText().toString();
         if (tmp.length()!=0){
-            this.FONT_SIZE = Integer.parseInt(tmp);
+            fontSize = Integer.parseInt(tmp);
         }
 
-        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
-        ComponentName provider = new ComponentName(this, DesktopTextWidget.class);
-        RemoteViews views = new RemoteViews(this.getPackageName(),
-                R.layout.desktop_text_widget);
-
-
         // 字体颜色
+        if (this.SPINNER_USED==true & this.SPINNER_COLOR != nowFontColor){
+            fontColor = this.SPINNER_COLOR;
+            this.FONT_COLOR = fontColor;
+            this.FONT_SIZE = fontSize;
+            return 0;
+        }
+
         EditText inputColorCodeR = findViewById(R.id.color_code_r);
         EditText inputColorCodeG = findViewById(R.id.color_code_g);
         EditText inputColorCodeB = findViewById(R.id.color_code_b);
@@ -282,77 +319,80 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         String rCode = inputColorCodeR.getText().toString();
         String gCode = inputColorCodeG.getText().toString();
         String bCode = inputColorCodeB.getText().toString();
-        if (rCode.length()==0 | gCode.length()==0 | bCode.length()==0) {
+
+        EditText inputHexColorCode = findViewById((R.id.hex_color_code));
+        String hexCode = inputHexColorCode.getText().toString();
+
+        String pattern = "([0-9]|[a-f]|[A-F]){6}";  // 匹配16进制颜色代码格式
+        boolean isMatch = Pattern.matches(pattern, hexCode);
+
+        if (isMatch){
+            fontColor = parseColor(String.join("", "#", hexCode));
+        }else if (hexCode.length()>0){
+            return 1;
+        }
+
+        if (rCode.length()==0 & gCode.length()==0 & bCode.length()==0) {
 
         }else{
-            int rCodeInt = Integer.parseInt(rCode);
-            int gCodeInt = Integer.parseInt(gCode);
-            int bCodeInt = Integer.parseInt(bCode);
+            int rCodeInt = 0;
+            int gCodeInt = 0;
+            int bCodeInt = 0;
+
+            if (rCode.length()>0){
+                rCodeInt = Integer.parseInt(rCode);
+            }
+
+            if (gCode.length()>0){
+                gCodeInt = Integer.parseInt(gCode);
+            }
+
+            if (bCode.length()>0){
+                bCodeInt = Integer.parseInt(bCode);
+            }
 
             if (rCodeInt<0 | gCodeInt<0 |gCodeInt<0 | rCodeInt>255 | gCodeInt>255 | bCodeInt>255){
-                displayToast(r.getString(R.string.input_code_error_message));
-            }else{
-                this.FONT_COLOR = rgb(rCodeInt, gCodeInt, bCodeInt);
-//                System.out.println(String.format("%d-%d-%d", rCodeInt, gCodeInt, bCodeInt));
+                return 2;
+            }else {
+                fontColor = rgb(rCodeInt, gCodeInt, bCodeInt);
             }
         }
-//        views.setTextColor(R.id.appwidget_text, this.FONT_COLOR);
-
-        // 字体大小
-//        views.setTextViewTextSize(R.id.appwidget_text, TypedValue.COMPLEX_UNIT_PT, this.FONT_SIZE);
-
-        Bitmap bmp = getTextBmp("hello world!");
-        views.setImageViewBitmap(R.id.appwidget_image, bmp);
-
-        appWidgetManager.updateAppWidget(provider, views);
-
-        displayToast("字体已修改");
-
-    }
-
-    public Bitmap getTextBmp(String message){
-
-
-        Paint p = new Paint();
-        Paint.FontMetricsInt fm = p.getFontMetricsInt();
-        int width = (int)p.measureText(message);
-        int height = fm.descent - fm.ascent;
-
-        Bitmap bmp = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-        Canvas canvasTmp = new Canvas(bmp);
-        canvasTmp.drawColor(Color.WHITE);
-
-        Typeface plain = r.getFont(R.font.handwriting);
-        Typeface font = Typeface.create(plain, Typeface.NORMAL);
-
-        p.setColor(Color.RED);
-        p.setTypeface(font);
-        p.setTextSize(12);
-        canvasTmp.drawText(message, 0, fm.leading - fm.ascent, p);
-
-        return bmp;
+        if (nowFontColor==fontColor & nowFontSize==fontSize){
+            return 3;
+        }else{
+            this.FONT_COLOR = fontColor;
+            this.FONT_SIZE = fontSize;
+            return 4;
+        }
     }
 
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         String spinnerLabel = parent.getItemAtPosition(position).toString();
-        displayToast(String.valueOf(id));
+//        displayToast(String.valueOf(id));
         switch (spinnerLabel){
+            case "选择颜色":
+                break;
             case "Black":
-                this.FONT_COLOR = Color.BLACK;
+                this.SPINNER_COLOR = Color.BLACK;
+                this.SPINNER_USED = true;
                 break;
             case "Red":
-                this.FONT_COLOR = Color.RED;
+                this.SPINNER_COLOR = Color.RED;
+                this.SPINNER_USED = true;
                 break;
             case "Blue":
-                this.FONT_COLOR = Color.BLUE;
+                this.SPINNER_COLOR = Color.BLUE;
+                this.SPINNER_USED = true;
                 break;
             case "Gray":
-                this.FONT_COLOR = Color.CYAN;
+                this.SPINNER_COLOR = Color.CYAN;
+                this.SPINNER_USED = true;
                 break;
             case "Pink":
-                this.FONT_COLOR = rgb(249, 204, 226);
+                this.SPINNER_COLOR = rgb(249, 204, 226);
+                this.SPINNER_USED = true;
                 break;
         }
     }

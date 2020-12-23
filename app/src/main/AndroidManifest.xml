@@ -9,9 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.DesktopText">
-        <activity android:name=".ConfigureActivity"></activity>
 
-        <receiver android:name=".DesktopTextWidget">
+        <receiver android:name=".DesktopTextWidget1">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>

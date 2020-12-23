@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="handwriting">
-        <item name="android:fontFamily">@font/handwriting</item>
+        <item name="android:fontFamily">@font/handwriting1</item>
     </style>
 </resources>

@@ -2,39 +2,52 @@
     <string name="app_name">Simple Text</string>
     <string name="edit_message">输入需展示的文字</string>
     <string name="button_send">Send</string>
-    <string name="appwidget_text">what??</string>
+    <string name="appwidget_text">Happy Everyday.</string>
     <string name="add_widget">Add widget</string>
     <string name="change_font_size">字号</string>
     <string name="font_color_caption">快捷选择颜色</string>
-    <string name="edit_font_text">修改字体</string>
+    <string name="edit_font_text">应用并保存以上修改</string>
+    <string name="fininshed_font_altering">字体已修改</string>
+    <string name="use_last_saved_font_config">使用上次字体配置</string>
     <string name="add_text_to_widget">添加至小部件</string>
     <string name="add_text_to_saved_list">添加至常用文本</string>
     <string name="add_text_to_saved_list_toast">已添加至常用文本</string>
+    <string name="add_empty_text_to_saved_list_toast">已保存空文本</string>
     <string name="update_text_toast">桌面文字已更新</string>
+    <string name="update_empty_text_toast">已显示空文本</string>
     <string name="overwrite_text_toast">已覆盖第一条保存的记录</string>
     <string name="change_color_code">16进制色彩代码</string>
     <string name="default_display_text">Be happy everyday!</string>
-    <string name="input_code_error_message">色彩数值需在[0, 255]区间内</string>
+    <string name="input_rgb_color_code_error">RGB色彩数值需在[0, 255]区间内，请重新填写</string>
+    <string name="input_hex_color_code_error">16进制颜色代码应为6位，数值为0-9A-F</string>
+    <string name="hint_apply_slots">点击以上按钮直接应用</string>
+    <string name="acknowledgement">小部件字体：沐瑶软笔手写体 </string>
 
     <string name="saved_text_1">saved_text_1</string>
     <string name="saved_text_2">saved_text_2</string>
     <string name="saved_text_3">saved_text_3</string>
     <string name="displaying_text">displaying_text</string>
+    <string name="last_font_size">last_font_size</string>
+    <string name="last_font_color">last_font_color</string>
     <string name="occupied_number_handle">occupied_number_handle</string>
 
     <string name="preference_file_key">preference_file</string>
+    <string name="heading_save_plan">方案保存</string>
+    <string name="hint_input_hex_color_code">16进制颜色代码</string>
+    <string name="hint_input_rgb_color_code">RGB</string>
 
     <integer name="occupied_number_default">0</integer>
     <integer name="total_save_slots">3</integer>
 
     <string-array name="color_array">
+        <item>选择颜色</item>
         <item>Black</item>
         <item>Red</item>
         <item>Blue</item>
         <item>Gray</item>
         <item>Pink</item>
     </string-array>
-    
+
     <string-array name="font_array">
         <item>手写体</item>
     </string-array>
