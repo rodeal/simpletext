@@ -14,4 +14,5 @@
     <color name="transparent_red">#00FF0000</color>
     <color name="colorPrimaryDark">#0288D1</color>
     <color name="colorPrimary">#03A9F4</color>
+    <color name="normal_text">@color/black</color>
 </resources>

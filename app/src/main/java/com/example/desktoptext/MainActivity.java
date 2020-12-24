@@ -1,6 +1,7 @@
 package com.example.desktoptext;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
 
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
@@ -8,6 +9,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.widget.ArrayAdapter;
@@ -17,6 +19,7 @@ import android.widget.RadioButton;
 import android.widget.RemoteViews;
 import android.widget.AdapterView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.regex.Pattern;
@@ -25,7 +28,6 @@ import static android.graphics.Color.parseColor;
 import static android.graphics.Color.rgb;
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
-    public static final String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";
     public int FONT_COLOR = Color.BLACK;
     public int SPINNER_COLOR = Color.BLACK;
     public int FONT_SIZE = 12;
@@ -60,6 +62,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         initPref();         // 初始化配置
 
+        getPreview();
+
         initSavedSlots();   // 初始化存储栏
 
     }
@@ -91,6 +95,46 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         return provider;
     }
 
+    public RemoteViews initRemoteViews(){
+        RemoteViews views;
+        switch (this.NOW_WIDGET){
+            case 1:
+                views = new RemoteViews(this.getPackageName(), R.layout.desktop_text_widget);
+                break;
+            case 2:
+                views = new RemoteViews(this.getPackageName(), R.layout.desktop_text_widget2);
+                break;
+            default:
+                views = new RemoteViews(this.getPackageName(), R.layout.desktop_text_widget);
+        }
+        return views;
+    }
+
+    public void getPreview(){
+        TextView textPreview = findViewById(R.id.textViewPreview);
+        String message = sharedPrefWidget.getString(r.getString(R.string.displaying_text), "example");
+        int font_color = sharedPrefWidget.getInt(r.getString(R.string.last_font_color), Color.BLACK);
+        int font_size = sharedPrefWidget.getInt(r.getString(R.string.last_font_size), 12);
+
+        String textToShow;
+        if (message.length()>10){
+            textToShow = String.join(" ", "当前文本", message.substring(0, 10), "...", String.format("字体大小为：%d", font_size));
+        }else{
+            textToShow = String.join(" ", "当前文本", message, String.format("字体大小为：%d", font_size));
+        }
+
+
+        if (this.NOW_WIDGET == 1){
+            Typeface typeface = ResourcesCompat.getFont(this, R.font.handwriting1);
+            textPreview.setTypeface(typeface);
+        }else{
+            textPreview.setTypeface(null);
+        }
+        textPreview.setText(textToShow);
+        textPreview.setTextColor(font_color);
+
+    }
+
     public void initSavedSlots(){
         /*
          *初始化存储栏
@@ -118,16 +162,25 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         更新桌面显示文字
          */
 
+        String handle = r.getString(R.string.displaying_text);
+        String nowDisplayingText = sharedPrefWidget.getString(handle, "");
+        if (message.equals(nowDisplayingText)){
+            displayToast(r.getString(R.string.update_text_failed_toast));
+            return;
+        }
+
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
+        RemoteViews views = initRemoteViews();
         ComponentName provider = initProvider();
-        RemoteViews views = new RemoteViews(this.getPackageName(),
-                R.layout.desktop_text_widget);
+
         views.setTextViewText(R.id.appwidget_text, message);
 
         appWidgetManager.updateAppWidget(provider, views);
 
         SharedPreferences.Editor editor = sharedPrefWidget.edit();
-        editor.putString(r.getString(R.string.displaying_text), message);
+        editor.putString(handle, message);
+
+
         editor.apply();
         if (message.length()>0){
             displayToast(r.getString(R.string.update_text_toast));
@@ -135,6 +188,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             displayToast(r.getString(R.string.update_empty_text_toast));
         }
 
+        getPreview();
     }
 
 
@@ -147,20 +201,20 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         if (statusCode==0 | statusCode==4){
             AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
+
+            RemoteViews views = initRemoteViews();
             ComponentName provider = initProvider();
-            RemoteViews views = new RemoteViews(this.getPackageName(),
-                    R.layout.desktop_text_widget);
 
             SharedPreferences.Editor editor = sharedPrefWidget.edit();
 
             views.setTextViewTextSize(R.id.appwidget_text, TypedValue.COMPLEX_UNIT_PT, this.FONT_SIZE);
             views.setTextColor(R.id.appwidget_text, this.FONT_COLOR);
 
+            appWidgetManager.updateAppWidget(provider, views);
+
             editor.putInt(r.getString(R.string.last_font_size), this.FONT_SIZE);
             editor.putInt(r.getString(R.string.last_font_color), this.FONT_COLOR);
             editor.apply();
-
-            appWidgetManager.updateAppWidget(provider, views);
 
             displayToast(r.getString(R.string.fininshed_font_altering));
         }else if (statusCode==3){
@@ -170,9 +224,14 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         }else if (statusCode==2){
             displayToast(r.getString(R.string.input_rgb_color_code_error));
         }
+
+        getPreview();
     }
 
     public void updateCurrentWidget(View view){
+        /*
+         * 小部件选择回调
+         */
         boolean checked = ((RadioButton) view).isChecked();
         switch (view.getId()){
             case R.id.radioButtonWidget1:
@@ -188,6 +247,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         }
 
         initPref();
+
+        getPreview();
     }
 
     public int saveText(String message, int pos) {
@@ -264,7 +325,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     public void updateSlot(int id, String message){
-        EditText editText = (EditText) findViewById(id);
+        EditText editText = findViewById(id);
         editText.setText(message);
     }
 
@@ -304,7 +365,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
          * 获取对应存储栏数据
          */
 
-        EditText editText = (EditText) findViewById(inputId);
+        EditText editText = findViewById(inputId);
         // 获取输入的文本
         String message = editText.getText().toString();
         updateText(message);

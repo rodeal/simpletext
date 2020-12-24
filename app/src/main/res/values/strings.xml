@@ -14,6 +14,8 @@
     <string name="add_text_to_saved_list_toast">已添加至常用文本</string>
     <string name="add_empty_text_to_saved_list_toast">已保存空文本</string>
     <string name="update_text_toast">桌面文字已更新</string>
+    <string name="update_text_failed_toast">文字与当前显示的相同</string>
+    <string name="add_text_failed_toast">文字与当前保存的相同</string>
     <string name="update_empty_text_toast">已显示空文本</string>
     <string name="overwrite_text_toast">已覆盖第一条保存的记录</string>
     <string name="change_color_code">16进制色彩代码</string>
