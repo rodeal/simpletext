@@ -18,8 +18,8 @@ android {
         applicationId "com.example.desktoptext"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 8
-        versionName "Beta v1.2"
+        versionCode 9
+        versionName "Beta v1.3"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
