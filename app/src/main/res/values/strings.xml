@@ -2,7 +2,8 @@
     <string name="app_name">Simple Text</string>
     <string name="edit_message">输入需展示的文字</string>
     <string name="button_send">Send</string>
-    <string name="appwidget_text">Happy Everyday.</string>
+    <string name="appwidget_text1">小部件1-例子Example</string>
+    <string name="appwidget_text2">小部件2-例子Example</string>
     <string name="add_widget">Add widget</string>
     <string name="change_font_size">字号</string>
     <string name="font_color_caption">快捷选择颜色</string>
@@ -14,6 +15,8 @@
     <string name="add_text_to_saved_list_toast">已添加至常用文本</string>
     <string name="add_empty_text_to_saved_list_toast">已保存空文本</string>
     <string name="update_text_toast">桌面文字已更新</string>
+    <string name="update_text_failed_toast">文字与当前显示的相同</string>
+    <string name="add_text_failed_toast">文字与当前保存的相同</string>
     <string name="update_empty_text_toast">已显示空文本</string>
     <string name="overwrite_text_toast">已覆盖第一条保存的记录</string>
     <string name="change_color_code">16进制色彩代码</string>
@@ -21,6 +24,7 @@
     <string name="input_rgb_color_code_error">RGB色彩数值需在[0, 255]区间内，请重新填写</string>
     <string name="input_hex_color_code_error">16进制颜色代码应为6位，数值为0-9A-F</string>
     <string name="hint_apply_slots">点击以上按钮直接应用</string>
+    <string name="hint_choose_widget">选择目标小部件</string>
     <string name="acknowledgement">小部件字体：沐瑶软笔手写体 </string>
 
     <string name="saved_text_1">saved_text_1</string>
@@ -31,7 +35,9 @@
     <string name="last_font_color">last_font_color</string>
     <string name="occupied_number_handle">occupied_number_handle</string>
 
-    <string name="preference_file_key">preference_file</string>
+    <string name="preference_file_key_saved_slots">preference_file_saved_slots</string>
+    <string name="preference_file_key_widget1">preference_file_widget1</string>
+    <string name="preference_file_key_widget2">preference_file_widget2</string>
     <string name="heading_save_plan">方案保存</string>
     <string name="hint_input_hex_color_code">16进制颜色代码</string>
     <string name="hint_input_rgb_color_code">RGB</string>

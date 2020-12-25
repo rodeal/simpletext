@@ -6,368 +6,408 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/textView11"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="3dp"
-        android:layout_marginTop="3dp"
-        android:text="@string/heading_save_plan"
-        android:textColor="@color/colorPrimary"
-        android:textSize="8sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider" />
-
-    <EditText
-        android:id="@+id/editText"
-        android:layout_width="193dp"
-        android:layout_height="115dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:ems="10"
-        android:hint="@string/edit_message"
-        android:inputType="textPersonName"
-        android:rotationX="4"
-        app:layout_constraintEnd_toStartOf="@+id/button"
-        app:layout_constraintHorizontal_chainStyle="spread"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/button" />
-
-    <Button
-        android:id="@+id/button"
-        android:layout_width="141dp"
-        android:layout_height="47dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="16dp"
-        android:background="#6A1B9A"
-        android:hint="@string/button_send"
-        android:onClick="showTextFly"
-        android:rotationX="4"
-        android:text="@string/add_text_to_widget"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/editText"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/button3"
-        android:layout_width="141dp"
-        android:layout_height="47dp"
-        android:onClick="saveText0"
-        android:text="@string/add_text_to_saved_list"
-        app:layout_constraintBottom_toBottomOf="@+id/editText"
-        app:layout_constraintStart_toStartOf="@+id/button" />
-
-    <EditText
-        android:id="@+id/saveSlots3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:ems="10"
-        android:inputType="text"
-        app:layout_constraintEnd_toStartOf="@+id/button6"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/textView5"
-        app:layout_constraintTop_toTopOf="@+id/textView5" />
-
-    <Spinner
-        android:id="@+id/color_spinner"
-        android:layout_width="163dp"
-        android:layout_height="22dp"
-        android:layout_marginBottom="8dp"
-        android:alpha="0.5"
-        android:background="#41009688"
-        app:layout_constraintBottom_toBottomOf="@+id/fontsize"
-        app:layout_constraintEnd_toStartOf="@+id/fontsize"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/text_color" />
-
-    <TextView
-        android:id="@+id/text_color"
-        android:layout_width="91dp"
-        android:layout_height="23dp"
-        android:ems="10"
-        android:fontFamily="sans-serif-smallcaps"
-        android:gravity="center"
-        android:singleLine="false"
-        android:text="@string/font_color_caption"
-        android:textAlignment="center"
-        android:textAppearance="@style/TextAppearance.AppCompat.Small"
-        app:layout_constraintBottom_toBottomOf="@+id/color_spinner"
-        app:layout_constraintEnd_toStartOf="@+id/color_spinner"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="368dp"
-        android:layout_height="46dp"
-        android:layout_marginTop="16dp"
-        android:gravity="center|center_horizontal"
-        android:onClick="changeTextFont"
-        android:text="@string/edit_font_text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fontsize" />
-
-    <EditText
-        android:id="@+id/fontsize"
-        android:layout_width="62dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="16dp"
-        android:gravity="bottom|center_horizontal"
-        android:hint="@string/change_font_size"
-        android:inputType="number"
-        android:textSize="12sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/color_spinner"
-        app:layout_constraintTop_toBottomOf="@+id/hex_color_code" />
-
-    <View
-        android:id="@+id/divider"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="24dp"
-        android:background="?android:attr/listDivider"
-        app:layout_constraintTop_toBottomOf="@+id/button2"
-        tools:layout_editor_absoluteX="0dp" />
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp">
 
-    <EditText
-        android:id="@+id/saveSlots1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:ems="10"
-        android:inputType="text"
-        app:layout_constraintEnd_toStartOf="@+id/button4"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/textView2"
-        app:layout_constraintTop_toTopOf="@+id/textView2" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    <EditText
-        android:id="@+id/saveSlots2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:ems="10"
-        android:inputType="text"
-        app:layout_constraintEnd_toStartOf="@+id/button5"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/textView4"
-        app:layout_constraintTop_toTopOf="@+id/textView4" />
+            <Button
+                android:id="@+id/buttonApplyFontChange"
+                android:layout_width="368dp"
+                android:layout_height="46dp"
+                android:layout_marginTop="16dp"
+                android:gravity="center|center_horizontal"
+                android:onClick="changeTextFont"
+                android:text="@string/edit_font_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/fontsize" />
 
-    <Button
-        android:id="@+id/textView4"
-        android:layout_width="73dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="12dp"
-        android:gravity="center"
-        android:onClick="showText2"
-        android:text="方案2"
-        android:textAlignment="center"
-        app:layout_constraintEnd_toStartOf="@+id/saveSlots2"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+            <TextView
+                android:id="@+id/textView12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="7dp"
+                android:text="#"
+                app:layout_constraintBottom_toBottomOf="@+id/hex_color_code"
+                app:layout_constraintEnd_toStartOf="@+id/hex_color_code" />
 
-    <Button
-        android:id="@+id/textView5"
-        android:layout_width="73dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="8dp"
-        android:gravity="center"
-        android:onClick="showText3"
-        android:text="方案3"
-        android:textAlignment="center"
-        app:layout_constraintEnd_toStartOf="@+id/saveSlots3"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+            <Spinner
+                android:id="@+id/color_spinner"
+                android:layout_width="175dp"
+                android:layout_height="21dp"
+                android:layout_marginBottom="6dp"
+                android:alpha="0.5"
+                android:background="#41009688"
+                app:layout_constraintBottom_toBottomOf="@+id/fontsize"
+                app:layout_constraintEnd_toEndOf="@+id/textView9" />
 
-    <Button
-        android:id="@+id/button4"
-        android:layout_width="71dp"
-        android:layout_height="45dp"
-        android:onClick="saveText1"
-        android:text="保存"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/saveSlots1"
-        app:layout_constraintTop_toTopOf="@+id/textView2" />
+            <TextView
+                android:id="@+id/text_color"
+                android:layout_width="91dp"
+                android:layout_height="23dp"
+                android:ems="10"
+                android:fontFamily="sans-serif-smallcaps"
+                android:gravity="center"
+                android:singleLine="false"
+                android:text="@string/font_color_caption"
+                android:textAlignment="center"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textColor="@color/normal_text"
+                app:layout_constraintBaseline_toBaselineOf="@+id/fontsize"
+                app:layout_constraintStart_toStartOf="@+id/textView" />
 
-    <Button
-        android:id="@+id/button5"
-        android:layout_width="71dp"
-        android:layout_height="45dp"
-        android:onClick="saveText2"
-        android:text="保存"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/saveSlots2"
-        app:layout_constraintTop_toTopOf="@+id/textView4" />
+            <TextView
+                android:id="@+id/textView7"
+                android:layout_width="66dp"
+                android:layout_height="28dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/hint_apply_slots"
+                android:textAlignment="center"
+                android:textSize="10sp"
+                app:layout_constraintStart_toStartOf="@+id/buttonSlot3"
+                app:layout_constraintTop_toBottomOf="@+id/buttonSlot3" />
 
-    <Button
-        android:id="@+id/button6"
-        android:layout_width="71dp"
-        android:layout_height="45dp"
-        android:onClick="saveText3"
-        android:text="保存"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/saveSlots3"
-        app:layout_constraintTop_toTopOf="@+id/textView5" />
+            <Button
+                android:id="@+id/buttonQuickDisplay"
+                android:layout_width="141dp"
+                android:layout_height="47dp"
+                android:background="#6A1B9A"
+                android:hint="@string/button_send"
+                android:onClick="onDisplayButtonClick"
+                android:rotationX="4"
+                android:text="@string/add_text_to_widget"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/editText"
+                app:layout_constraintTop_toTopOf="@+id/editText" />
 
-    <Button
-        android:id="@+id/textView2"
-        android:layout_width="72dp"
-        android:layout_height="45dp"
-        android:layout_marginTop="32dp"
-        android:gravity="center"
-        android:onClick="showText1"
-        android:text="方案1"
-        android:textAlignment="center"
-        app:layout_constraintEnd_toStartOf="@+id/saveSlots1"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider" />
+            <EditText
+                android:id="@+id/hex_color_code"
+                android:layout_width="66dp"
+                android:layout_height="39dp"
+                android:layout_marginEnd="16dp"
+                android:ems="10"
+                android:gravity="bottom|center_horizontal"
+                android:hint="非必填"
+                android:inputType="textPersonName"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="@+id/textView9"
+                app:layout_constraintEnd_toEndOf="parent" />
 
-    <EditText
-        android:id="@+id/color_code_b"
-        android:layout_width="30dp"
-        android:layout_height="34dp"
-        android:hint="填"
-        android:inputType="number"
-        android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="@+id/textView9"
-        app:layout_constraintEnd_toStartOf="@+id/textView9"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/color_code_g" />
+            <EditText
+                android:id="@+id/color_code_r"
+                android:layout_width="30dp"
+                android:layout_height="34dp"
+                android:gravity="bottom|center_horizontal"
+                android:hint="非"
+                android:inputType="number"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="@+id/textView9"
+                app:layout_constraintEnd_toStartOf="@+id/color_code_g"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/textView" />
 
-    <View
-        android:id="@+id/divider3"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="16dp"
-        android:background="?android:attr/listDivider"
-        app:layout_constraintTop_toBottomOf="@+id/button3" />
+            <EditText
+                android:id="@+id/saveSlots2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="text"
+                app:layout_constraintBottom_toBottomOf="@+id/buttonSaveSlot2"
+                app:layout_constraintStart_toStartOf="@+id/saveSlots1" />
 
-    <EditText
-        android:id="@+id/color_code_g"
-        android:layout_width="30dp"
-        android:layout_height="34dp"
-        android:hint="必"
-        android:inputType="number"
-        android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="@+id/color_code_b"
-        app:layout_constraintEnd_toStartOf="@+id/color_code_b"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/color_code_r" />
+            <RadioGroup
+                android:id="@+id/radioGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:checkedButton="@id/radioButtonWidget1"
+                app:layout_constraintEnd_toStartOf="@+id/editText"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-    <EditText
-        android:id="@+id/color_code_r"
-        android:layout_width="30dp"
-        android:layout_height="34dp"
-        android:gravity="bottom"
-        android:hint="非"
-        android:inputType="number"
-        android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="@+id/color_code_g"
-        app:layout_constraintEnd_toStartOf="@+id/color_code_g"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/textView" />
+                <RadioButton
+                    android:id="@+id/radioButtonWidget1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="updateCurrentWidget"
+                    android:text="小部件1" />
 
-    <TextView
-        android:id="@+id/textView7"
-        android:layout_width="66dp"
-        android:layout_height="28dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/hint_apply_slots"
-        android:textAlignment="center"
-        android:textSize="10sp"
-        app:layout_constraintStart_toStartOf="@+id/textView5"
-        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+                <RadioButton
+                    android:id="@+id/radioButtonWidget2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="updateCurrentWidget"
+                    android:text="小部件2" />
+            </RadioGroup>
 
-    <TextView
-        android:id="@+id/textView8"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:fontFamily="@font/handwriting1"
-        android:text="@string/acknowledgement"
-        app:layout_constraintStart_toStartOf="@+id/saveSlots3"
-        app:layout_constraintTop_toBottomOf="@+id/saveSlots3" />
+            <Button
+                android:id="@+id/buttonSlot2"
+                android:layout_width="73dp"
+                android:layout_height="48dp"
+                android:gravity="center"
+                android:onClick="onDisplayButtonClick"
+                android:text="方案2"
+                android:textAlignment="center"
+                app:layout_constraintBottom_toBottomOf="@+id/saveSlots2"
+                app:layout_constraintStart_toStartOf="@+id/buttonSlot1" />
 
-    <TextView
-        android:id="@+id/textView9"
-        android:layout_width="103dp"
-        android:layout_height="30dp"
-        android:gravity="center_horizontal|center_vertical"
-        android:text="@string/hint_input_hex_color_code"
-        app:layout_constraintBottom_toBottomOf="@+id/hex_color_code"
-        app:layout_constraintEnd_toStartOf="@+id/hex_color_code"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/color_code_b" />
+            <Button
+                android:id="@+id/buttonSlot3"
+                android:layout_width="73dp"
+                android:layout_height="48dp"
+                android:gravity="center"
+                android:onClick="onDisplayButtonClick"
+                android:text="方案3"
+                android:textAlignment="center"
+                app:layout_constraintBottom_toBottomOf="@+id/saveSlots3"
+                app:layout_constraintStart_toStartOf="@+id/buttonSlot2" />
 
-    <EditText
-        android:id="@+id/hex_color_code"
-        android:layout_width="66dp"
-        android:layout_height="39dp"
-        android:layout_marginTop="16dp"
-        android:ems="10"
-        android:gravity="bottom|center_horizontal"
-        android:hint="非必填"
-        android:inputType="textPersonName"
-        android:textSize="12sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/textView9"
-        app:layout_constraintTop_toBottomOf="@+id/divider3" />
+            <Button
+                android:id="@+id/buttonSaveSlot1"
+                android:layout_width="71dp"
+                android:layout_height="45dp"
+                android:layout_marginTop="32dp"
+                android:onClick="onSaveButtonClick"
+                android:text="保存"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/saveSlots1"
+                app:layout_constraintTop_toBottomOf="@+id/divider" />
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="33dp"
-        android:layout_height="27dp"
-        android:gravity="center"
-        android:text="@string/hint_input_rgb_color_code"
-        android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="@+id/color_code_r"
-        app:layout_constraintEnd_toStartOf="@+id/color_code_r"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent" />
+            <TextView
+                android:id="@+id/textView8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/handwriting1"
+                android:text="@string/acknowledgement"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/textView7"
+                app:layout_constraintTop_toBottomOf="@+id/saveSlots3" />
 
-    <TextView
-        android:id="@+id/textView6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="3dp"
-        android:layout_marginTop="3dp"
-        android:text="快速设置"
-        android:textColor="@color/colorPrimary"
-        android:textSize="8sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+            <Button
+                android:id="@+id/buttonSaveSlot2"
+                android:layout_width="71dp"
+                android:layout_height="45dp"
+                android:layout_marginTop="8dp"
+                android:onClick="onSaveButtonClick"
+                android:text="保存"
+                app:layout_constraintEnd_toEndOf="@+id/buttonSaveSlot1"
+                app:layout_constraintTop_toBottomOf="@+id/buttonSaveSlot1" />
 
-    <TextView
-        android:id="@+id/textView10"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="3dp"
-        android:layout_marginTop="3dp"
-        android:text="字体调整"
-        android:textColor="@color/colorPrimary"
-        android:textSize="8sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider3" />
+            <EditText
+                android:id="@+id/editText"
+                android:layout_width="84dp"
+                android:layout_height="119dp"
+                android:ems="10"
+                android:hint="@string/edit_message"
+                android:inputType="textMultiLine"
+                android:rotationX="4"
+                app:layout_constraintEnd_toStartOf="@+id/buttonQuickDisplay"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/radioGroup"
+                app:layout_constraintTop_toTopOf="@+id/radioGroup" />
 
-    <TextView
-        android:id="@+id/textView12"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="9dp"
-        android:text="#"
-        app:layout_constraintBottom_toBottomOf="@+id/hex_color_code"
-        app:layout_constraintEnd_toStartOf="@+id/hex_color_code" />
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="3dp"
+                android:layout_marginTop="3dp"
+                android:text="快速设置"
+                android:textColor="@color/colorPrimary"
+                android:textSize="8sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/buttonSlot1"
+                android:layout_width="72dp"
+                android:layout_height="45dp"
+                android:gravity="center"
+                android:onClick="onDisplayButtonClick"
+                android:text="方案1"
+                android:textAlignment="center"
+                app:layout_constraintBottom_toBottomOf="@+id/saveSlots1"
+                app:layout_constraintEnd_toStartOf="@+id/saveSlots1"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/textView11"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="3dp"
+                android:layout_marginTop="3dp"
+                android:text="@string/heading_save_plan"
+                android:textColor="@color/colorPrimary"
+                android:textSize="8sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/divider" />
+
+            <TextView
+                android:id="@+id/textView9"
+                android:layout_width="103dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="24dp"
+                android:gravity="center_horizontal|center_vertical"
+                android:text="@string/hint_input_hex_color_code"
+                android:textColor="@color/normal_text"
+                app:layout_constraintEnd_toStartOf="@+id/textView12"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/color_code_b"
+                app:layout_constraintTop_toBottomOf="@+id/divider3" />
+
+            <View
+                android:id="@+id/divider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="16dp"
+                android:background="?android:attr/listDivider"
+                app:layout_constraintTop_toBottomOf="@+id/buttonApplyFontChange" />
+
+            <View
+                android:id="@+id/divider3"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="16dp"
+                android:background="?android:attr/listDivider"
+                app:layout_constraintTop_toBottomOf="@+id/button3" />
+
+            <EditText
+                android:id="@+id/color_code_g"
+                android:layout_width="30dp"
+                android:layout_height="34dp"
+                android:gravity="bottom|center_horizontal"
+                android:hint="必"
+                android:inputType="number"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="@+id/textView9"
+                app:layout_constraintEnd_toStartOf="@+id/color_code_b"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/color_code_r" />
+
+            <EditText
+                android:id="@+id/color_code_b"
+                android:layout_width="30dp"
+                android:layout_height="34dp"
+                android:gravity="bottom|center_horizontal"
+                android:hint="填"
+                android:inputType="number"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="@+id/textView9"
+                app:layout_constraintEnd_toStartOf="@+id/textView9"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/color_code_g" />
+
+            <Button
+                android:id="@+id/buttonSaveSlot3"
+                android:layout_width="71dp"
+                android:layout_height="45dp"
+                android:layout_marginTop="8dp"
+                android:onClick="onSaveButtonClick"
+                android:text="保存"
+                app:layout_constraintEnd_toEndOf="@+id/buttonSaveSlot2"
+                app:layout_constraintTop_toBottomOf="@+id/buttonSaveSlot2" />
+
+            <EditText
+                android:id="@+id/fontsize"
+                android:layout_width="66dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="16dp"
+                android:gravity="bottom|center_horizontal"
+                android:hint="@string/change_font_size"
+                android:inputType="number"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="@+id/hex_color_code"
+                app:layout_constraintTop_toBottomOf="@+id/hex_color_code" />
+
+            <Button
+                android:id="@+id/button3"
+                android:layout_width="141dp"
+                android:layout_height="47dp"
+                android:onClick="onSaveButtonClick"
+                android:text="@string/add_text_to_saved_list"
+                app:layout_constraintBottom_toBottomOf="@+id/editText"
+                app:layout_constraintEnd_toEndOf="@+id/buttonQuickDisplay" />
+
+            <TextView
+                android:id="@+id/textView10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="3dp"
+                android:layout_marginTop="3dp"
+                android:text="字体调整"
+                android:textColor="@color/colorPrimary"
+                android:textSize="8sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/divider3" />
+
+            <EditText
+                android:id="@+id/saveSlots1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="text"
+                app:layout_constraintBottom_toBottomOf="@+id/buttonSaveSlot1"
+                app:layout_constraintEnd_toStartOf="@+id/buttonSaveSlot1"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/buttonSlot1" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="33dp"
+                android:layout_height="27dp"
+                android:gravity="center"
+                android:text="@string/hint_input_rgb_color_code"
+                android:textColor="@color/normal_text"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="@+id/textView9"
+                app:layout_constraintEnd_toStartOf="@+id/color_code_r"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <EditText
+                android:id="@+id/saveSlots3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="text"
+                app:layout_constraintBottom_toBottomOf="@+id/buttonSaveSlot3"
+                app:layout_constraintStart_toStartOf="@+id/saveSlots2" />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="78dp"
+                android:layout_height="15dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/hint_choose_widget"
+                android:textAlignment="center"
+                android:textSize="10sp"
+                app:layout_constraintEnd_toEndOf="@+id/radioGroup"
+                app:layout_constraintStart_toStartOf="@+id/radioGroup"
+                app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
+
+            <TextView
+                android:id="@+id/textViewPreview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:text="TextView"
+                android:textSize="10sp"
+                app:layout_constraintBottom_toTopOf="@+id/buttonApplyFontChange"
+                app:layout_constraintStart_toStartOf="@+id/text_color" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
