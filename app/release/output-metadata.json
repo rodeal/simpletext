@@ -10,9 +10,9 @@
     {
       "type": "SINGLE",
       "filters": [],
-      "versionCode": 8,
-      "versionName": "Beta v1.2",
-      "outputFile": "Simple Text-Beta v1.2.apk"
+      "versionCode": 9,
+      "versionName": "Beta v1.3",
+      "outputFile": "Simple Text-Beta v1.3.apk"
     }
   ]
 }
