@@ -112,7 +112,14 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     public void getPreview(){
         TextView textPreview = findViewById(R.id.textViewPreview);
-        String message = sharedPrefWidget.getString(r.getString(R.string.displaying_text), "example");
+        String message;
+        if (this.NOW_WIDGET == 1){
+            message = sharedPrefWidget.getString(r.getString(R.string.displaying_text), r.getString(R.string.appwidget_text1));
+        }else{
+            message = sharedPrefWidget.getString(r.getString(R.string.displaying_text), r.getString(R.string.appwidget_text2));
+        }
+
+
         int font_color = sharedPrefWidget.getInt(r.getString(R.string.last_font_color), Color.BLACK);
         int font_size = sharedPrefWidget.getInt(r.getString(R.string.last_font_size), 12);
 

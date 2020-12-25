@@ -2,7 +2,8 @@
     <string name="app_name">Simple Text</string>
     <string name="edit_message">输入需展示的文字</string>
     <string name="button_send">Send</string>
-    <string name="appwidget_text">Happy Everyday.</string>
+    <string name="appwidget_text1">小部件1-例子Example</string>
+    <string name="appwidget_text2">小部件2-例子Example</string>
     <string name="add_widget">Add widget</string>
     <string name="change_font_size">字号</string>
     <string name="font_color_caption">快捷选择颜色</string>
