@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">Simple Text</string>
+    <string name="confirm_override">覆盖</string>
+    <string name="cancle">取消</string>
     <string name="edit_message">输入需展示的文字</string>
     <string name="button_send">Send</string>
     <string name="appwidget_text1">小部件1-例子Example</string>
@@ -42,6 +44,10 @@
     <string name="hint_input_hex_color_code">16进制颜色代码</string>
     <string name="hint_input_rgb_color_code">RGB</string>
 
+    <string name="callback_widget_key">widgetId</string>
+    <string name="id_widget1">widget1</string>
+    <string name="id_widget2">widget2</string>
+
     <integer name="occupied_number_default">0</integer>
     <integer name="total_save_slots">3</integer>
 
@@ -56,6 +62,12 @@
 
     <string-array name="font_array">
         <item>手写体</item>
+    </string-array>
+
+    <string-array name="plan_array">
+        <item>方案1</item>
+        <item>方案2</item>
+        <item>方案3</item>
     </string-array>
 
 </resources>

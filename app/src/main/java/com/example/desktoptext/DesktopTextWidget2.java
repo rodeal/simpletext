@@ -30,7 +30,11 @@ public class DesktopTextWidget2 extends AppWidgetProvider {
         // There may be multiple widgets active, so update all of them
 
         Intent intent = new Intent(context, MainActivity.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
+        String widget_key = context.getString(R.string.callback_widget_key);
+        String widget_id = context.getString(R.string.id_widget2);
+        intent.putExtra(widget_key, widget_id);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 2, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.desktop_text_widget2);
 
         views.setOnClickPendingIntent(R.id.appwidget_text, pendingIntent);
