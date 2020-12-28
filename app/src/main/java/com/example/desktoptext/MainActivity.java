@@ -45,6 +45,15 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private SharedPreferences sharedPrefSaveSlots;
 
     @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        Bundle extras = intent.getExtras();
+        initWidgetRadioGroup(extras);       // 初始化widget选择按钮
+        initPref();
+        getPreview();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);   // 调用父类的onCreate方法
         setContentView(R.layout.activity_main);
@@ -72,7 +81,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         initWidgetRadioGroup(extras);       // 初始化widget选择按钮
         initPref();         // 初始化配置
 
-        getPreview();
+        getPreview();      // 初始化预览
 
         initSavedSlots();   // 初始化存储栏
 
@@ -84,14 +93,16 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         if (extras != null) {
             appWidgetId = extras.getString("widgetId");
         }
-        RadioGroup widgetRadioGroup = findViewById(R.id.radioGroup);
 
+        RadioGroup widgetRadioGroup = findViewById(R.id.radioGroup);
         switch (appWidgetId){
             case "widget1":
                 widgetRadioGroup.check(R.id.radioButtonWidget1);
+                this.NOW_WIDGET = 1;
                 break;
             case "widget2":
                 widgetRadioGroup.check(R.id.radioButtonWidget2);
+                this.NOW_WIDGET = 2;
                 break;
             default:
         }
@@ -143,9 +154,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         TextView textPreview = findViewById(R.id.textViewPreview);
         String message;
         if (this.NOW_WIDGET == 1){
-            message = sharedPrefWidget.getString(r.getString(R.string.displaying_text), r.getString(R.string.appwidget_text1));
+            message = this.sharedPrefWidget.getString(r.getString(R.string.displaying_text), r.getString(R.string.appwidget_text1));
         }else{
-            message = sharedPrefWidget.getString(r.getString(R.string.displaying_text), r.getString(R.string.appwidget_text2));
+            message = this.sharedPrefWidget.getString(r.getString(R.string.displaying_text), r.getString(R.string.appwidget_text2));
         }
 
 
@@ -318,10 +329,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         if (flag != 1){
             showDialog();
-            String handle = String.format("saved_text_1");
-            editor.putString(handle, message);
-            displayToast(r.getString(R.string.overwrite_text_toast));
-            nowSlot = 1;
+            nowSlot = 0;
         }
 
 //        if (message.length() == 0){
@@ -329,12 +337,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 //        }
         editor.apply();
         String save_text_toast = r.getString(R.string.add_text_to_saved_list_toast);
-        if (message.length() > 0){
+        if (message.length() > 0 & nowSlot!=0){
             displayToast(String.join(" ", message, save_text_toast));
-        }else{
+        }else if(message.length()==0){
             displayToast(r.getString((R.string.add_empty_text_to_saved_list_toast)));
         }
-
 
         updateSlotsFly(nowSlot, message);
         return nowSlot;
@@ -348,14 +355,23 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     @Override
     public void showDialogOverrideSlot(DialogFragment dialog, int selectedPosition) {
 
+        EditText editText = (EditText) findViewById(R.id.editText);
+        String message = editText.getText().toString();
+
         SharedPreferences.Editor editor = sharedPrefSaveSlots.edit();
         String handle = String.format("saved_text_%d", selectedPosition+1);
-//        editor.putString(handle, "测试");
-        updateSlotsFly(selectedPosition+1, "测试");
+        editor.putString(handle, message);
+        editor.apply();
+
+        updateSlotsFly(selectedPosition+1, message);
+
+        displayToast(String.format(r.getString(R.string.overwrite_text_toast), selectedPosition+1));
     }
 
     public void updateSlotsFly(int nowSlot, String message){
         switch (nowSlot){
+            case 0:
+                break;
             case 1:
                 updateSlot(R.id.saveSlots1, message);
                 break;

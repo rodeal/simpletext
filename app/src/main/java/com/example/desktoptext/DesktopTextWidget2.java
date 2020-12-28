@@ -33,7 +33,7 @@ public class DesktopTextWidget2 extends AppWidgetProvider {
         String widget_key = context.getString(R.string.callback_widget_key);
         String widget_id = context.getString(R.string.id_widget2);
         intent.putExtra(widget_key, widget_id);
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 2, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 1, intent, PendingIntent.FLAG_CANCEL_CURRENT);
 
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.desktop_text_widget2);
 
