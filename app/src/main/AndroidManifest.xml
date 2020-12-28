@@ -28,7 +28,7 @@
                 android:resource="@xml/desktop_text_widget_info" />
         </receiver>
 
-        <activity android:name=".MainActivity">
+        <activity android:launchMode="singleTask" android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -1,11 +1,16 @@
 package com.example.desktoptext;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentActivity;
 
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Color;
@@ -16,18 +21,20 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.view.View;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.RemoteViews;
 import android.widget.AdapterView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.regex.Pattern;
 
 import static android.graphics.Color.parseColor;
 import static android.graphics.Color.rgb;
 
-public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, AlertDialogFragment.AlertDialogListener {
     public int FONT_COLOR = Color.BLACK;
     public int SPINNER_COLOR = Color.BLACK;
     public int FONT_SIZE = 12;
@@ -36,6 +43,15 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private Resources r;
     private SharedPreferences sharedPrefWidget;
     private SharedPreferences sharedPrefSaveSlots;
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        Bundle extras = intent.getExtras();
+        initWidgetRadioGroup(extras);       // 初始化widget选择按钮
+        initPref();
+        getPreview();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,14 +74,38 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         }
 
 
-        this.r = getResources();
+        this.r = getResources(); //获取资源
 
+        Intent intent = getIntent();
+        Bundle extras = intent.getExtras();
+        initWidgetRadioGroup(extras);       // 初始化widget选择按钮
         initPref();         // 初始化配置
 
-        getPreview();
+        getPreview();      // 初始化预览
 
         initSavedSlots();   // 初始化存储栏
 
+    }
+
+    public void initWidgetRadioGroup(Bundle extras){
+
+        String appWidgetId = r.getString(R.string.id_widget1);
+        if (extras != null) {
+            appWidgetId = extras.getString("widgetId");
+        }
+
+        RadioGroup widgetRadioGroup = findViewById(R.id.radioGroup);
+        switch (appWidgetId){
+            case "widget1":
+                widgetRadioGroup.check(R.id.radioButtonWidget1);
+                this.NOW_WIDGET = 1;
+                break;
+            case "widget2":
+                widgetRadioGroup.check(R.id.radioButtonWidget2);
+                this.NOW_WIDGET = 2;
+                break;
+            default:
+        }
     }
 
     public void initPref(){
@@ -114,9 +154,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         TextView textPreview = findViewById(R.id.textViewPreview);
         String message;
         if (this.NOW_WIDGET == 1){
-            message = sharedPrefWidget.getString(r.getString(R.string.displaying_text), r.getString(R.string.appwidget_text1));
+            message = this.sharedPrefWidget.getString(r.getString(R.string.displaying_text), r.getString(R.string.appwidget_text1));
         }else{
-            message = sharedPrefWidget.getString(r.getString(R.string.displaying_text), r.getString(R.string.appwidget_text2));
+            message = this.sharedPrefWidget.getString(r.getString(R.string.displaying_text), r.getString(R.string.appwidget_text2));
         }
 
 
@@ -270,8 +310,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         int nowSlot = pos;
         int flag = 0;
 
-//        System.out.println(numOccupied);
-
         if (pos != 0) {
             String handle = String.format("saved_text_%d", pos);
             editor.putString(handle, message);
@@ -279,7 +317,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         } else {
             for (int i = 0; i < totalSaveSlots; i++) {
                 String handle = String.format("saved_text_%d", i + 1);
-                System.out.println(i);System.out.println(sharedPrefSaveSlots.getString(handle, ""));
                 if (sharedPrefSaveSlots.getString(handle, "").length()==0) {
 
                     editor.putString(handle, message);
@@ -291,11 +328,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         }
 
         if (flag != 1){
-            System.out.println("hello");
-            String handle = String.format("saved_text_1");
-            editor.putString(handle, message);
-            displayToast(r.getString(R.string.overwrite_text_toast));
-            nowSlot = 1;
+            showDialog();
+            nowSlot = 0;
         }
 
 //        if (message.length() == 0){
@@ -303,20 +337,41 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 //        }
         editor.apply();
         String save_text_toast = r.getString(R.string.add_text_to_saved_list_toast);
-        if (message.length() > 0){
+        if (message.length() > 0 & nowSlot!=0){
             displayToast(String.join(" ", message, save_text_toast));
-        }else{
+        }else if(message.length()==0){
             displayToast(r.getString((R.string.add_empty_text_to_saved_list_toast)));
         }
 
-
         updateSlotsFly(nowSlot, message);
-
         return nowSlot;
+    }
+
+    public void showDialog(){
+        DialogFragment dialog = new AlertDialogFragment();
+        dialog.show(getSupportFragmentManager(), "AlertDialogFragment");
+    }
+
+    @Override
+    public void showDialogOverrideSlot(DialogFragment dialog, int selectedPosition) {
+
+        EditText editText = (EditText) findViewById(R.id.editText);
+        String message = editText.getText().toString();
+
+        SharedPreferences.Editor editor = sharedPrefSaveSlots.edit();
+        String handle = String.format("saved_text_%d", selectedPosition+1);
+        editor.putString(handle, message);
+        editor.apply();
+
+        updateSlotsFly(selectedPosition+1, message);
+
+        displayToast(String.format(r.getString(R.string.overwrite_text_toast), selectedPosition+1));
     }
 
     public void updateSlotsFly(int nowSlot, String message){
         switch (nowSlot){
+            case 0:
+                break;
             case 1:
                 updateSlot(R.id.saveSlots1, message);
                 break;
